@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<!-- saved from url=(0060)http://ghnuberath.github.io/sustainable-spark-development/#/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+
+    <title>Introducing Apache Spark</title>
+
+    <meta name="description" content="Introducing fundamental Apache Spark concepts through diagrams, examples and use cases.">
+    <meta name="author" content="Sean McIntyre">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+    <link rel="stylesheet" href="./sustainable_spark_development_files/reveal.css">
+    <link rel="stylesheet" href="./sustainable_spark_development_files/black.css" id="theme">
+
+    <!-- Code syntax highlighting -->
+    <link rel="stylesheet" href="./sustainable_spark_development_files/zenburn.css">
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="./sustainable_spark_development_files/custom.css">
+
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script><link rel="stylesheet" type="text/css" href="./sustainable_spark_development_files/paper.css">
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+
+  <body style="transition: -webkit-transform 0.8s ease;">
+
+    <div class="reveal slide center" role="application" data-transition-speed="default" data-background-transition="fade">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides" style="width: 960px; height: 700px; left: 50%; top: 50%; bottom: auto; right: auto; transform: translate(-50%, -50%) scale(0.973286);">
+        <section data-transition="convex" class="present" style="top: 45.5px; display: block;">
+          <h1>Sustainable Spark Development</h1>
+          <p>
+            Sean McIntyre<br>
+            <small>Software Architect</small>
+          </p>
+          <img src="./sustainable_spark_development_files/uncharted-logo.png" width="350">
+        </section>
+        <section data-transition="convex" hidden="" aria-hidden="true" class="stack future" style="top: 0px; display: block;">
+          <section style="top: 264px; display: block;">
+            <h2>The Problem</h2>
+          </section>
+          <section class="future" aria-hidden="true" style="top: 98px; display: block;">
+            <p>Uncharted in a nutshell:</p>
+            <ul>
+              <li>Data Science</li>
+              <li>Machine Learning</li>
+              <li>Data cleaning and enrichment</li>
+              <li><strong>Custom visual analytics software</strong></li>
+            </ul>
+            <p class="fragment" data-fragment-index="0">
+              <em>Visualization</em> is a broad term these days, and it often involves a lot of data processing to create something useful.
+            </p>
+          </section>
+          <section class="future" aria-hidden="true" style="top: 330px; display: none;">
+            <p>From a different perspective:</p>
+            <ul>
+              <li>Data Scientists</li>
+              <li>Computer Scientists</li>
+              <li>Software Engineers</li>
+              <li>Dev Ops</li>
+              <li>...and many more</li>
+            </ul>
+            <p class="fragment" data-fragment-index="0">Developing big, data-driven applications involves all of these folks!</p>
+          </section>
+          <section class="future" aria-hidden="true" style="top: 330px; display: none;">
+            <aside class="notes">
+              Despite your best intentions...
+            </aside>
+            <h3>
+              The informal workflow<br>
+              <small class="fragment" data-fragment-index="0">i.e. "what always happens"</small>
+            </h3>
+            <ol>
+              <li class="fragment" data-fragment-index="1">Data collection <em>(Dev Ops/Engineers)</em></li>
+              <li class="fragment" data-fragment-index="2">Exploratory data analysis <em>(Data scientist)</em></li>
+              <li class="fragment" data-fragment-index="3">Application development <em>(Engineers)</em></li>
+              <li class="fragment" data-fragment-index="4">Algorithm optimization <em>(Data/computer scientists)</em></li>
+              <li class="fragment" data-fragment-index="5">Deployment/Scaling <em>(Engineers/Dev Ops)</em></li>
+            </ol>
+          </section>
+          <section class="future" aria-hidden="true" style="top: 330px; display: none;">
+            <h3>Issues:</h3>
+            <ul>
+              <li class="fragment" data-fragment-index="0">Everyone ends up touching Spark</li>
+              <li class="fragment" data-fragment-index="1">Spark is hard to learn, and hard to use correctly</li>
+              <li class="fragment" data-fragment-index="2">Scripts written for data analysis are productionized due to time constraints</li>
+              <li class="fragment" data-fragment-index="3">Scripts are not sufficiently modular to re-use. Wheel reinventing ensues.</li>
+            </ul>
+            <p class="fragment" data-fragment-index="4">It became clear very quickly that this process is not <em>sustainable</em>.</p>
+          </section>
+        </section>
+        <section data-transition="convex" hidden="" aria-hidden="true" class="stack future" style="top: 0px; display: block;">
+          <section style="top: 264px; display: block;">
+            <h2>What is Sustainability?</h2>
+          </section>
+          <section class="future" aria-hidden="true" style="top: 330px; display: none;">
+            <h3>Priorities:</h3>
+            <ul>
+              <li class="fragment" data-fragment-index="0">Retain the productivity/flexibility afforded by scripting</li>
+              <li class="fragment" data-fragment-index="1">Balance with the need for modularity</li>
+              <li class="fragment" data-fragment-index="2">Promote code reuse and composability<br><small>"Hey, how did you parse that twitter data?"</small></li>
+              <li class="fragment" data-fragment-index="3">Reduce barriers to entry for new team members<br><small>people shouldn't have to be Spark experts to write efficient code</small></li>
+            </ul>
+          </section>
+        </section>
+        <section data-transition="convex" hidden="" aria-hidden="true" class="stack future" style="top: 330px; display: none;">
+          <section style="top: 330px; display: none;">
+            <h2>The Solution</h2>
+          </section>
+          <section class="future" aria-hidden="true" style="top: 330px; display: none;">
+            <p>
+              Sparkpipe!
+            </p>
+            <pre class="presentation-code fragment" data-fragment-index="0">              <code class="sh hljs bash" data-trim="">$ ./spark-shell \
+  --packages software.uncharted.sparkpipe:sparkpipe-core:<span class="hljs-number">0.9</span>.<span class="hljs-number">7</span></code>
+            </pre>
+          </section>
+          <section class="future" aria-hidden="true" style="top: 330px; display: none;">
+            <pre class="presentation-code">              <code class="scala hljs" data-trim=""><span class="hljs-comment">// import data</span>
+<span class="hljs-keyword">val</span> df = sqlContext.read
+  .format(<span class="hljs-string">"json"</span>)
+  .load(<span class="hljs-string">"tweets.json.gz"</span>)
+
+<span class="hljs-comment">// add column containing words from tweet text</span>
+<span class="hljs-keyword">import</span> scala.reflect.runtime.universe._
+<span class="hljs-keyword">import</span> org.apache.spark.sql.<span class="hljs-type">Column</span>
+<span class="hljs-keyword">val</span> wordsColumn = udf {
+	(text: <span class="hljs-type">String</span>) =&gt; text.trim.split(<span class="hljs-string">"\\s+?"</span>)
+}(typeTag[<span class="hljs-type">Array</span>[<span class="hljs-type">String</span>]], typeTag[<span class="hljs-type">String</span>])(<span class="hljs-keyword">new</span> <span class="hljs-type">Column</span>(<span class="hljs-string">"text"</span>))
+<span class="hljs-keyword">val</span> df2 = df.withColumn(<span class="hljs-string">"tweet_words"</span>, wordsColumn)
+
+<span class="hljs-comment">// do other things (if you're not in tears)</span></code>
+            </pre>
+            <p>There are things which are unintuitive in the Spark API</p>
+          </section>
+					<section class="future" aria-hidden="true" style="top: 330px; display: none;">
+						<pre class="presentation-code">              <code class="scala hljs" data-trim=""><span class="hljs-keyword">import</span> software.uncharted.sparkpipe.<span class="hljs-type">Pipe</span>
+<span class="hljs-keyword">import</span> software.uncharted.sparkpipe.ops.core.{dataframe =&gt; dfo}
+
+<span class="hljs-keyword">val</span> ingest = <span class="hljs-type">Pipe</span>(sqlContext)
+.to(dfo.io.read(format = <span class="hljs-string">"json"</span>, path = <span class="hljs-string">"tweets.json.gz"</span>))
+.to(dfo.addColumn(
+	<span class="hljs-string">"tweet_words"</span>,
+	(text: <span class="hljs-type">String</span>) =&gt; text.trim.split(<span class="hljs-string">"\\s+?"</span>),
+	<span class="hljs-string">"text"</span>
+))
+<span class="hljs-keyword">val</span> df = ingest.run</code>
+						</pre>
+						<p>Sparkpipe aims to make them simpler and more semantically clear</p>
+					</section>
+					<section class="future" aria-hidden="true" style="top: 330px; display: none;">
+						<pre class="presentation-code">              <code class="scala hljs" data-trim=""><span class="hljs-keyword">import</span> software.uncharted.sparkpipe.<span class="hljs-type">Pipe</span>
+<span class="hljs-keyword">import</span> software.uncharted.sparkpipe.ops.community.{twitter =&gt; twops}
+
+<span class="hljs-keyword">val</span> ingest = <span class="hljs-type">Pipe</span>(sqlContext)
+.to(twops.io.read(format = <span class="hljs-string">"json"</span>, path = <span class="hljs-string">"tweets.json.gz"</span>))
+.to(twops.tweet.hashtags(<span class="hljs-string">"tweet_hashtags"</span>))
+
+<span class="hljs-keyword">val</span> df = ingest.run</code>
+						</pre>
+						<p>more importantly, we want to reduce boilerplate<br> in domain-specific situations</p>
+					</section>
+					<section class="future" aria-hidden="true" style="top: 330px; display: none;">
+						<p>
+							The <strong>operation</strong> becomes the single modular unit that developers and data scientists can agree on.
+						</p>
+						<pre class="presentation-code">              <code class="scala hljs" data-trim=""><span class="hljs-comment">// operations are just simple scala functions!</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">myOperation</span>(</span>arg1: <span class="hljs-type">String</span>, arg2: <span class="hljs-type">Int</span>)(input: <span class="hljs-type">DataFrame</span>): <span class="hljs-type">DataFrame</span> = {
+  <span class="hljs-comment">/* do something */</span>
+}</code>
+						</pre>
+						<p class="fragment" data-fragment-index="0">
+							They should each do one thing, and do it well<br>(with well-defined inputs and outputs)
+							<br><small>©UNIX :)</small>
+						</p>
+						<aside class="notes">
+							And frankly, even if one doesn't do something well, it means the problem is isolated and can be fixed without breaking the agreed-upon interface.
+						</aside>
+					</section>
+					<section class="future" aria-hidden="true" style="top: 330px; display: none;">
+						<h3>Advantages for Uncharted</h3>
+						<ul>
+							<li class="fragment" data-fragment-index="0">Pipelines are highly scriptable!</li>
+							<li class="fragment" data-fragment-index="1">Isolation from changes in the underlying Spark API <br><small>(i.e. RDD -&gt; DataFrame -&gt; Dataset)</small></li>
+							<li class="fragment" data-fragment-index="2">Hide the uglier parts of Spark</li>
+							<li class="fragment" data-fragment-index="3">Pipelines separate scripts into modular, reusable bits without adding too much overhead</li>
+							<li class="fragment" data-fragment-index="4">Productionize scripts, optimize later</li>
+							<li class="fragment" data-fragment-index="5">Simple DSL encourages a specific format for functions, and separates structure from implementation details</li>
+						</ul>
+					</section>
+					<section class="future" aria-hidden="true" style="top: 330px; display: none;">
+						<p>Separating structure from implementation details:</p>
+						<pre class="presentation-code">							<code class="scala hljs" data-trim=""><span class="hljs-comment">// linear</span>
+<span class="hljs-keyword">val</span> ingest = <span class="hljs-type">Pipe</span>(red).to(blue).to(green).to(yellow)
+<span class="hljs-comment">// branch</span>
+<span class="hljs-keyword">val</span> analysis1 = pipe.to(something).to(somethingElse)
+<span class="hljs-keyword">val</span> analysis2 = pipe.to(anotherOp)
+<span class="hljs-comment">// merge</span>
+<span class="hljs-keyword">val</span> output = <span class="hljs-type">Pipe</span>(analysis1, analysis2).to(outputOp)
+<span class="hljs-comment">//non-linear pipelines are cool!</span></code>
+						</pre>
+						<p class="fragment" data-fragment-index="0">
+							This makes even complex scripts <strong>easier to parse and share</strong> than the corresponding raw Spark code.
+						</p>
+					</section>
+        </section>
+				<section data-transition="convex" hidden="" aria-hidden="true" class="stack future" style="top: 330px; display: none;">
+					<section style="top: 330px; display: none;">
+						<h2>The Bottom Line</h2>
+					</section>
+					<section class="future" aria-hidden="true" style="top: 330px; display: none;">
+						<p>
+							We're not trying to replace the underlying Spark API, so you generally won't find ops that wrap simple things like <code>select()</code>.
+						</p>
+						<pre class="presentation-code">							<code class="scala hljs" data-trim=""><span class="hljs-type">Pipe</span>(sqlContext)
+.to(twops.io.read(format = <span class="hljs-string">"json"</span>, path = <span class="hljs-string">"tweets.json.gz"</span>))
+.to(_.select(<span class="hljs-string">"text"</span>)) <span class="hljs-comment">//you can use scala inlines anytime you want!</span>
+.run</code>
+						</pre>
+					</section>
+					<section class="future" aria-hidden="true" style="top: 330px; display: none;">
+						<p>
+							In particular, we're not trying to replace the SparkML <code>Pipeline</code>, though we do have ops for using it with Sparkpipe.
+						</p>
+					</section>
+					<section class="future" aria-hidden="true" style="top: 330px; display: none;">
+						<p>We've released <code>sparkpipe-core</code> as open source, and it's available now from Maven central.</p>
+						<p class="fragment" data-fragment-index="0">
+							We're also hard at work on domain-specific libraries which will also be open source.
+						</p>
+						<ul class="fragment" data-fragment-index="1">
+							<li><code>sparkpipe-twitter-ops</code></li>
+							<li><code>sparkpipe-instagram-ops</code></li>
+							<li><code>sparkpipe-gdelt-ops</code></li>
+							<li><code>sparkpipe-salt-ops</code> <em>(visualization)</em></li>
+							<li>etc.</li>
+						</ul>
+					</section>
+					<section class="future" aria-hidden="true" style="top: 330px; display: none;">
+						<h3>But I need your help!</h3>
+						<p class="fragment" data-fragment-index="0">Creating <code>sparkpipe</code> has helped improve the productivity of developers within my company.</p>
+						<p class="fragment" data-fragment-index="1">But it would be even more powerful if a community of domain-specific libraries developed around it!</p>
+						<aside class="notes">
+							So, if you like what you see, get cracking! And tell me so I can link to it.
+						</aside>
+					</section>
+					<section class="future" aria-hidden="true" style="top: 330px; display: none;">
+						<h2>Mo data? <span class="fragment" data-fragment-index="0">No problems.</span></h2>
+					</section>
+				</section>
+      </div>
+    <div class="backgrounds"><div class="slide-background present" data-loaded="true" style="display: block;"></div><div class="slide-background stack future" data-loaded="true" style="display: block;"><div class="slide-background present" data-loaded="true" style="display: block;"></div><div class="slide-background future" data-loaded="true" style="display: block;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div></div><div class="slide-background stack future" data-loaded="true" style="display: block;"><div class="slide-background present" data-loaded="true" style="display: block;"></div><div class="slide-background future" style="display: none;"></div></div><div class="slide-background stack future" style="display: none;"><div class="slide-background present" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div></div><div class="slide-background stack future" style="display: none;"><div class="slide-background present" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div><div class="slide-background future" style="display: none;"></div></div></div><div class="progress" style="display: block;"><span style="width: 0px;"></span></div><aside class="controls" style="display: block;"><button class="navigate-left" aria-label="previous slide"></button><button class="navigate-right enabled" aria-label="next slide"></button><button class="navigate-up" aria-label="above slide"></button><button class="navigate-down" aria-label="below slide"></button></aside><div class="slide-number" style="display: none;"></div><div class="speaker-notes" data-prevent-swipe=""></div><div class="pause-overlay"></div><div id="aria-status-div" aria-live="polite" aria-atomic="true" style="position: absolute; height: 1px; width: 1px; overflow: hidden; clip: rect(1px 1px 1px 1px);">
+          Sustainable Spark Development
+          
+            Sean McIntyre
+            Software Architect
+          
+          
+        </div></div>
+
+    <script src="./sustainable_spark_development_files/head.min.js"></script>
+    <script src="./sustainable_spark_development_files/reveal.js"></script>
+
+    <script>
+
+      // Full list of configuration options available at:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+        // Optional reveal.js plugins
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true }
+        ]
+      });
+
+    </script><script type="text/javascript" src="./sustainable_spark_development_files/highlight.js"></script><script type="text/javascript" src="./sustainable_spark_development_files/zoom.js"></script><script type="text/javascript" src="./sustainable_spark_development_files/notes.js"></script>
+
+  
+
+</body></html>
