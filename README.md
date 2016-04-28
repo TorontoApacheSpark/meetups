@@ -1,5 +1,5 @@
 # Toronto Apache Spark Meetup
-`Watch` this repo to get notified as we add slides and material for each event.
+`Watch` [TAS meetups repo](https://github.com/TorontoApacheSpark/meetups) to get notified as we add slides and material for each event.
 
 ## Monthly Contents:
 - [Toronto Apache Spark Youtube Channel](https://www.youtube.com/channel/UCjES0_2fkZuNXlyC_HoHxyw) `Subscribe` to get notified!
