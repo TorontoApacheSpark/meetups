@@ -2,6 +2,7 @@
 `Watch` [TAS meetups repo](https://github.com/TorontoApacheSpark/meetups) to get notified as we add slides and material for each event.
 
 ## Monthly Contents:
+- [Toronto Apache Spark Google+ Collection](https://plus.google.com/collection/UZdAbB) `Join` to participate via Hangouts in live sessions
 - [Toronto Apache Spark Youtube Channel](https://www.youtube.com/channel/UCjES0_2fkZuNXlyC_HoHxyw) `Subscribe` to get notified!
 - [5 Bullet Points](https://github.com/TorontoApacheSpark/Spark-Meetup-Five-Bullet-Points) `Watch` the repo to get notified! 
 
